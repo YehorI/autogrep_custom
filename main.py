@@ -226,14 +226,20 @@ def parse_args():
     
     parser.add_argument(
         "--openrouter-api-key",
-        default=os.environ.get("OPENROUTER_API_KEY"),
-        help="OpenRouter API key (can also be set via OPENROUTER_API_KEY env var)"
+        default=os.environ.get("LLM_API_KEY") or os.environ.get("OPENROUTER_API_KEY"),
+        help="API key for any OpenAI-compatible provider (env: LLM_API_KEY or OPENROUTER_API_KEY)"
     )
     
     parser.add_argument(
         "--openrouter-base-url",
-        default="https://openrouter.ai/api/v1",
-        help="OpenRouter API base URL"
+        default=os.environ.get("LLM_BASE_URL", "https://openrouter.ai/api/v1"),
+        help="OpenAI-compatible API base URL, e.g. your Mira endpoint (env: LLM_BASE_URL)"
+    )
+
+    parser.add_argument(
+        "--model",
+        default=os.environ.get("LLM_MODEL", "deepseek/deepseek-chat"),
+        help="Model name for the provider (env: LLM_MODEL)"
     )
     
     parser.add_argument(
@@ -246,7 +252,7 @@ def parse_args():
     args = parser.parse_args()
     
     if not args.openrouter_api_key:
-        parser.error("OpenRouter API key must be provided via --openrouter-api-key or OPENROUTER_API_KEY env var")
+        parser.error("API key must be provided via --openrouter-api-key, LLM_API_KEY or OPENROUTER_API_KEY")
     
     return args
 
@@ -268,7 +274,8 @@ def main():
         max_files_changed=args.max_files_changed,
         max_retries=args.max_retries,
         openrouter_api_key=args.openrouter_api_key,
-        openrouter_base_url=args.openrouter_base_url
+        openrouter_base_url=args.openrouter_base_url,
+        model=args.model
     )
     
     # Create necessary directories

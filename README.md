@@ -64,6 +64,13 @@ unzip cvedataset-patches.zip -d cvedataset-patches
 export OPENROUTER_API_KEY=your_api_key_here
 ```
 
+   Or use any OpenAI-compatible provider (e.g. Mira):
+```bash
+export LLM_API_KEY=your_api_key_here
+export LLM_BASE_URL=https://your-provider/v1
+export LLM_MODEL=your-model-name
+```
+
 ## Usage
 
 The project consists of two main components:

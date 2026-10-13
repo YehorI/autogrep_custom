@@ -11,8 +11,9 @@ class Config:
     repos_cache_dir: Path = Path("cache/repos")
     max_files_changed: int = 1
     max_retries: int = 8
-    openrouter_api_key: str = os.getenv("OPENROUTER_API_KEY")
-    openrouter_base_url: str = "https://openrouter.ai/api/v1"
+    openrouter_api_key: str = os.getenv("LLM_API_KEY") or os.getenv("OPENROUTER_API_KEY")
+    openrouter_base_url: str = os.getenv("LLM_BASE_URL", "https://openrouter.ai/api/v1")
+    model: str = os.getenv("LLM_MODEL", "deepseek/deepseek-chat")
     cache_manager: CacheManager = field(init=False)
 
     def __post_init__(self):
